@@ -1,0 +1,38 @@
+// Offline support: always try the network first so updates show right away; fall back to the cache offline.
+const CACHE = 'exhale-v7';
+const VOICE_CLIPS = ['heart', 'bella', 'emma', 'michael', 'nicole', 'velvet']
+  .flatMap(v => ['inhale', 'hold', 'exhale', 'rest'].map(w => `voice/${v}/${w}.mp3`));
+const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
+  'icons/icon.svg', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', ...VOICE_CLIPS];
+
+self.addEventListener('install', e => {
+  // Cache each file on its own: one missing or failed file must not stop the rest from working offline.
+  e.waitUntil(caches.open(CACHE)
+    .then(c => Promise.all(SHELL.map(url => c.add(new Request(url, { cache: 'reload' })).catch(() => {}))))
+    .then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys()
+    .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(() => self.clients.claim()));
+});
+
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  e.respondWith(fetch(e.request, { cache: 'no-cache' }).then(res => {
+    if (res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE).then(c => c.put(e.request, copy));
+    }
+    return res;
+  }).catch(() => caches.match(e.request, { ignoreSearch: true })));
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    if (list.length) return list[0].focus();
+    return self.clients.openWindow('./');
+  }));
+});

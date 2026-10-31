@@ -1,0 +1,22 @@
+{
+  "name": "Exhale – Guided Breathing",
+  "short_name": "Exhale",
+  "description": "Simple guided breathing exercises for sleep, stress and anxiety.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1424",
+  "theme_color": "#0f1b2d",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Box Breathing", "url": "./?start=box" },
+    { "name": "4-7-8 Sleep", "url": "./?start=478" },
+    { "name": "Relax", "url": "./?start=relax" }
+  ]
+}

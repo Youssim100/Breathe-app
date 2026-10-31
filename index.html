@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Exhale – Guided Breathing</title>
+  <meta name="description" content="Simple guided breathing exercises for sleep, stress and anxiety.">
+  <meta name="theme-color" content="#0f1b2d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Exhale">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <main id="view"></main>
+    <nav id="tabs" aria-label="Main">
+      <button data-tab="breathe" class="active"><span class="ti">◯</span>Breathe</button>
+      <button data-tab="progress"><span class="ti">▥</span>Progress</button>
+      <button data-tab="reminders"><span class="ti">◔</span>Reminders</button>
+      <button data-tab="learn"><span class="ti">❦</span>Learn</button>
+      <button data-tab="settings"><span class="ti">⚙</span>Settings</button>
+    </nav>
+  </div>
+
+  <!-- Bottom sheet (exercise details) -->
+  <div id="sheet-backdrop" hidden></div>
+  <section id="sheet" hidden role="dialog" aria-modal="true"></section>
+
+  <!-- Full-screen breathing session -->
+  <section id="session" hidden>
+    <div class="session-top">
+      <button id="s-close" class="icon-btn" aria-label="End session">✕</button>
+      <div id="s-title"></div>
+      <div id="s-timer" class="mono"></div>
+    </div>
+    <div class="stage">
+      <div class="ring"></div>
+      <div id="orb"></div>
+      <div class="stage-text">
+        <div id="s-phase">Get ready</div>
+        <div id="s-count" class="mono"></div>
+      </div>
+    </div>
+    <div id="s-progress"></div>
+    <div class="session-controls">
+      <button id="s-pause" class="btn primary wide">Pause</button>
+    </div>
+  </section>
+
+  <section id="finish" hidden>
+    <div class="finish-card">
+      <div class="finish-orb"></div>
+      <h2>Well done</h2>
+      <p id="f-summary"></p>
+      <button id="f-done" class="btn primary wide">Done</button>
+    </div>
+  </section>
+
+  <div id="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>
